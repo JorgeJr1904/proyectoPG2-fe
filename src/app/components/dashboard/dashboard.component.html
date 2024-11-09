@@ -1,0 +1,80 @@
+<section class="dashboard-container">
+
+    <article class="table-container">
+
+        <div class="submit-file" [class.notFileLoaded]="!fileLoaded">
+            <ngx-file-drop (onFileDrop)="dropped($event)" accept=".csv">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    Arrastra y suelta un archivo o haz
+                    <pre> click </pre>
+                    <button #submitButton type="button" (click)="openFileSelector()">aqui</button>
+                </ng-template>
+            </ngx-file-drop>
+        </div>
+
+        <h1 style="font-size: 30px; text-align: center;">
+            Historico de Analisis
+        </h1>
+
+        <div class="table-data mat-elevation-z8" [class.notFileLoaded]="!fileLoaded">
+            <table mat-table [dataSource]="dataSource">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="fileName">
+                    <th mat-header-cell *matHeaderCellDef> File </th>
+                    <td mat-cell *matCellDef="let element"> {{element?.filename}} </td>
+                </ng-container>
+
+                <!-- Creation Date Column -->
+                <ng-container matColumnDef="creationDate">
+                    <th mat-header-cell *matHeaderCellDef> Created At </th>
+                    <td mat-cell *matCellDef="let element"> {{formatDate(element?.info[0]?.requestdate)}} </td>
+                </ng-container>
+
+                <!-- DownLoad Column -->
+                <ng-container matColumnDef="download">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button matTooltip="Descargar csv" (click)="downloadFile(element)">
+                            <mat-icon>download</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!--  Column -->
+                <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button matTooltip="Ver Analisis" (click)="getNewData(element)">
+                            <mat-icon>equalizer</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+    </article>
+
+
+    @if (fileLoaded) {
+    <article class="streamlit-container">
+        @if (!isLoading) {
+        <app-streamlit-iframe style="height: 100%;"></app-streamlit-iframe>
+        }
+    </article>
+    }
+
+
+</section>

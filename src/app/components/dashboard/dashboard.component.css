@@ -1,0 +1,48 @@
+.dashboard-container{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    gap: 20px;
+}
+
+.table-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 50px;
+}
+
+.submit-file{
+    margin-bottom: 20px;
+    width: 100%;
+    height: 20%;
+}
+
+.table-data{
+  max-height: 400px;
+  width: 100%;
+  overflow: auto;
+}
+
+.streamlit-container{
+    width: 100%;
+    height: 100%;
+}
+
+.notFileLoaded{
+    width: 75%;
+}
+
+@media screen and (max-width: 850px) {
+    
+    .dashboard-container{
+        flex-wrap: wrap;
+    }
+
+    .table-container{
+        padding-right: 50px;
+    }
+
+}
